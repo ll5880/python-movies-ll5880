@@ -1,6 +1,7 @@
 from timeit import default_timer as timer
 import operator
 
+
 def lookUp(tconst, movie, ratings) -> None:
     if tconst in movie and tconst in ratings:
         m = movie[tconst]
@@ -19,6 +20,7 @@ def lookUp(tconst, movie, ratings) -> None:
         print("\tRating not found!")
         elapsed = timer() - start
         print('elapsed time (s):', elapsed, "\n")
+
 
 def Contains(titleType, words, movie) -> None:
     print("processing: CONTAINS ", titleType, words)
@@ -123,12 +125,51 @@ def Most_Votes(titleType, num, movie, ratings) -> None:
                 break
         j = 1
         for movie in movieList:
-            print("\t", str(j) + ". VOTES:", str(ratingList[j-1].numVotes) + ", MOVIE: Identifier:", movie.tconst,
-                  ", Title:", movie.primaryTitle, ", Type: ", movie.titleType,", Year:", movie.startYear, ", Runtime:",
+            print("\t", str(j) + ". VOTES:", str(ratingList[j - 1].numVotes) + ", MOVIE: Identifier:", movie.tconst,
+                  ", Title:", movie.primaryTitle, ", Type: ", movie.titleType, ", Year:", movie.startYear, ", Runtime:",
                   movie.runTime, ", Genres:", movie.genres)
             j += 1
     elapsed = timer() - start
     print('elapsed time (s):', elapsed, "\n")
 
 
+def Top(titleType, num, startYear, endYear, movie, ratings) -> None:
+    print("processing: TOP ", titleType, num, startYear, endYear)
+    start = timer()
+    found = False
+    ratingList = []  # contains the movies that are within start & end year, titletype and above 1000 votes
+    for key in ratings:
+        if titleType == movie[key].titleType and startYear <= movie[key].startYear <= endYear \
+                and ratings[key].numVotes >= 1000:
+            ratingList.append(ratings[key])
 
+    ratingList.sort(key=lambda x: movie[x.tconst].primaryTitle)
+    ratingList.sort(key=operator.attrgetter('numVotes'), reverse=True)
+    ratingList.sort(key=operator.attrgetter('averageRating'), reverse=True)
+    ratingList.sort(key=lambda x: movie[x.tconst].startYear)
+
+    movieList = []  # should be the final variable
+    for rating in ratingList:
+        movieList.append(movie[rating.tconst])
+
+    for i in range(startYear, endYear + 1):
+        count = 1
+        print("\tYEAR:", i)
+        for movie in movieList:
+            if count > num:
+                break
+            elif movie.startYear == i:
+                found = True
+                print("\t\t" + str(count) + ". RATING:", ratingList[count - 1].averageRating, " VOTES: ", ratingList[count - 1].numVotes,
+                      " MOVIE: Identifier:", movie.tconst, "Title: ", movie.primaryTitle, ", Type: ", movie.titleType,
+                      ", Year: ", movie.startYear,
+                      ", Runtime: ", movie.runTime, ", Genres: ", movie.genres)
+                count += 1
+            else:
+                found = False
+
+        if not found:
+            print("\t\tNo match found!")
+
+    elapsed = timer() - start
+    print('elapsed time (s):', elapsed, "\n")
