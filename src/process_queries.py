@@ -1,9 +1,5 @@
 from timeit import default_timer as timer
 import operator
-from Class_Movie import Movie
-from Class_Ratings import Ratings
-from movies_main import main
-
 
 def lookUp(tconst, movie, ratings) -> None:
     if tconst in movie and tconst in ratings:
@@ -119,6 +115,7 @@ def Most_Votes(titleType, num, movie, ratings) -> None:
     else:
         ratingList.sort(key=lambda x: movie[x.tconst].primaryTitle)
         ratingList.sort(key=operator.attrgetter('numVotes'), reverse=True)
+        """problem is that its not printing out (still processing a list if num is greater than the list)"""
         i = 0
         if num < len(ratingList):
             while i < num:
@@ -127,9 +124,11 @@ def Most_Votes(titleType, num, movie, ratings) -> None:
         else:
             while i < len(ratingList):
                 movieList.append(movie[ratingList[i].tconst])
+        j = 1
         for movie in movieList:
-            print(movie)
-            # remeber to format the output and include the number of votes for each movie
+            print("\t", str(i) + ". VOTES:", str(ratingList[j-1].numVotes) + ", MOVIE: Identifier:", movie.tconst, ", Title:", movie.primaryTitle, ", Type: ", movie.titleType,
+                  ", Year:", movie.startYear, ", Runtime:", movie.runTime, ", Genres:", movie.genres)
+            j += 1
     elapsed = timer() - start
     print('elapsed time (s):', elapsed, "\n")
 

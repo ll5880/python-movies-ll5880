@@ -1,5 +1,4 @@
 import sys
-import process_queries
 from Class_Movie import Movie
 from Class_Ratings import Ratings
 from timeit import default_timer as timer
@@ -38,7 +37,7 @@ def read_data() -> tuple:
                     genres = x[8]
                     movie[tconst] = Movie(tconst, titleType, primaryTitle, startYear, endYear, runtime, genres.split(","))
         elapsed = timer() - start
-        print('elapsed time (s):', elapsed)
+        print('elapsed time (s):', elapsed, "\n")
 
         start = timer()
         print("reading data/small.ratings.tsv into dict...")
@@ -54,8 +53,10 @@ def read_data() -> tuple:
         elapsed = timer() - start
         print('elapsed time (s):', elapsed)
 
-    else:
+        print("\nTotal movies: ", countm)
+        print("Total ratings: ", countr, "\n")
 
+    else:
         # opens the large data set
         start = timer()
         print("reading data/title.basics.tsv into dict...")
