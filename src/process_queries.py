@@ -6,27 +6,27 @@ from movies_main import main
 
 
 def lookUp(tconst, movie, ratings) -> None:
-    m = movie[tconst]
-    r = ratings[tconst]
     if tconst in movie and tconst in ratings:
+        m = movie[tconst]
+        r = ratings[tconst]
         print("Processing: LOOKUP ", tconst)
         start = timer()
         print("\tMOVIE: Identifier: ", m.tconst, ", Title: ", m.primaryTitle, ", Type: ",
-              m.titleType, ", Year: ", m.startYear, ", Runtime: ", m.runTime, ", Genres: ", m.genres, "\n")
+              m.titleType, ", Year: ", m.startYear, ", Runtime: ", m.runTime, ", Genres: ", m.genres)
         print("\tRATING: Identifier: ", r.tconst, ", Rating: ", r.averageRating, ", Votes: ", r.numVotes)
         elapsed = timer() - start
-        print('elapsed time (s):', elapsed)
+        print('elapsed time (s):', elapsed, "\n")
     else:
         print("Processing: LOOKUP ", tconst)
         start = timer()
         print("\tMovie not found!")
         print("\tRating not found!")
         elapsed = timer() - start
-        print('elapsed time (s):', elapsed)
+        print('elapsed time (s):', elapsed, "\n")
 
 
 def Contains(titleType, words, movie) -> None:
-    print("\nprocessing: CONTAINS ", titleType, words)
+    print("processing: CONTAINS ", titleType, words)
     start = timer()
     found = False
     movieList = []
@@ -38,18 +38,18 @@ def Contains(titleType, words, movie) -> None:
                 movieList.append(movie[key])
 
     if not found:
-        print("Not found!")
+        print("\tNo match found!")
     else:
         for m in movieList:
             print("\tIdentifier: ", m.tconst, ", Title: ", m.primaryTitle, ", Type: ", m.titleType,
-                  ", Year: ", m.startYear, ", Runtime: ", m.runTime, ", Genres: ", m.genres, "\n")
+                  ", Year: ", m.startYear, ", Runtime: ", m.runTime, ", Genres: ", m.genres)
 
     elapsed = timer() - start
-    print('elapsed time (s):', elapsed)
+    print('elapsed time (s):', elapsed, "\n")
 
 
 def Year_and_Genre(titleType, startYear, genre, movie) -> None:
-    print("\nprocessing: Year_and_Genre ", titleType, startYear, genre)
+    print("processing: YEAR_AND_GENRE ", titleType, startYear, genre)
     start = timer()
     found = False
     movieList = []
@@ -63,18 +63,18 @@ def Year_and_Genre(titleType, startYear, genre, movie) -> None:
     movieList.sort(key=operator.attrgetter('primaryTitle'))
 
     if not found:
-        print("Not found!")
+        print("\tNo match found!")
     else:
         for m in movieList:
             print("\tIdentifier: ", m.tconst, ", Title: ", m.primaryTitle, ", Type: ", m.titleType,
-                  ", Year: ", m.startYear, ", Runtime: ", m.runTime, ", Genres: ", m.genres, "\n")
+                  ", Year: ", m.startYear, ", Runtime: ", m.runTime, ", Genres: ", m.genres)
 
     elapsed = timer() - start
-    print('elapsed time (s):', elapsed)
+    print('elapsed time (s):', elapsed, "\n")
 
 
-def RunTime (titleType, startTime, endTime, movie) -> None:
-    print("\nprocessing: RUNTIME ", titleType, startTime, endTime)
+def RunTime(titleType, startTime, endTime, movie) -> None:
+    print("processing: RUNTIME ", titleType, startTime, endTime)
     start = timer()
     found = False
     movieList = []
@@ -92,26 +92,58 @@ def RunTime (titleType, startTime, endTime, movie) -> None:
     movieList.sort(key=operator.attrgetter('runTime'), reverse=True)
 
     if not found:
-        print("Not found!")
+        print("\tNo match found!")
     else:
         for m in movieList:
             print("\tIdentifier: ", m.tconst, ", Title: ", m.primaryTitle, ", Type: ", m.titleType,
-                  ", Year: ", m.startYear, ", Runtime: ", m.runTime, ", Genres: ", m.genres, "\n")
+                  ", Year: ", m.startYear, ", Runtime: ", m.runTime, ", Genres: ", m.genres)
 
     elapsed = timer() - start
-    print('elapsed time (s):', elapsed)
+    print('elapsed time (s):', elapsed, "\n")
+
 
 def Most_Votes(titleType, num, movie, ratings) -> None:
-    print("\nprocessing: MOST_VOTES ", titleType, num)
+    print("processing: MOST_VOTES ", titleType, num)
     start = timer()
+    found = False
     movieList = []
     ratingList = []
 
     for key in ratings:
         if titleType == movie[key].titleType:
             ratingList.append(ratings[key])
+            found = True
 
-    ratingList.sort(key=lambda  x: movie[x.tconst].primaryTitle)
+    if not found:
+        print("\tNo match found!")
+    else:
+        ratingList.sort(key=lambda x: movie[x.tconst].primaryTitle)
+        ratingList.sort(key=operator.attrgetter('numVotes'), reverse=True)
+        i = 0
+        if num < len(ratingList):
+            while i < num:
+                movieList.append(movie[ratingList[i].tconst])
+                i += 1
+        else:
+            while i < len(ratingList):
+                movieList.append(movie[ratingList[i].tconst])
+        for movie in movieList:
+            print(movie)
+            # remeber to format the output and include the number of votes for each movie
+    elapsed = timer() - start
+    print('elapsed time (s):', elapsed, "\n")
+
+
+def Top(titleType, num, startYear, endYear, movie, ratings) -> None:
+    print("\nprocessing: TOP ", titleType, num, startYear, endYear)
+    start = timer()
+    movieList = []
+    ratingList = []
+    for key in ratings:
+        if titleType == movie[key].titleType:
+            ratingList.append(ratings[key])
+
+    ratingList.sort(key=lambda x: movie[x.tconst].primaryTitle)
     ratingList.sort(key=operator.attrgetter('numVotes'), reverse=True)
 
     for i in range(num):
@@ -122,20 +154,3 @@ def Most_Votes(titleType, num, movie, ratings) -> None:
 
     elapsed = timer() - start
     print('\nelapsed time (s):', elapsed)
-
-def Top(titleType, num, startYear, endYear, movie, ratings) -> None:
-    print("\nprocessing: TOP ", titleType, num, startYear, endYear)
-    start = timer()
-    movieList = []
-    for key in movie:
-        if titleType == movie[key].titleType and startYear <= movie[key].startYear <= endYear:
-            m = movie[key]
-            movieList.append(movie[key])
-
-    for movie in movieList:
-        print(movie)
-
-    elapsed = timer() - start
-    print('\nelapsed time (s):', elapsed)
-
-
