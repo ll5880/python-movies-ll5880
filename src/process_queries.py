@@ -20,3 +20,26 @@ def lookUp(tconst, movie, ratings) -> None:
         elapsed = timer() - start
         print('elapsed time (s):', elapsed, "\n")
 
+def Contains(titleType, words, movie) -> None:
+    print("processing: CONTAINS ", titleType, words)
+    start = timer()
+    found = False
+    movieList = []
+    for key in movie:
+        if titleType == movie[key].titleType:
+            m = movie[key]
+            if words in m.primaryTitle:
+                found = True
+                movieList.append(movie[key])
+
+    if not found:
+        print("\tNo match found!")
+    else:
+        for m in movieList:
+            print("\tIdentifier: ", m.tconst, ", Title: ", m.primaryTitle, ", Type: ", m.titleType,
+                  ", Year: ", m.startYear, ", Runtime: ", m.runTime, ", Genres: ", m.genres)
+
+    elapsed = timer() - start
+    print('elapsed time (s):', elapsed, "\n")
+
+
