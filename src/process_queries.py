@@ -97,3 +97,37 @@ def RunTime(titleType, startTime, endTime, movie) -> None:
     print('elapsed time (s):', elapsed, "\n")
 
 
+def Most_Votes(titleType, num, movie, ratings) -> None:
+    print("processing: MOST_VOTES ", titleType, num)
+    start = timer()
+    found = False
+    movieList = []
+    ratingList = []
+
+    for key in ratings:
+        if titleType == movie[key].titleType:
+            ratingList.append(ratings[key])
+            found = True
+
+    if not found:
+        print("\tNo match found!")
+    else:
+        ratingList.sort(key=lambda x: movie[x.tconst].primaryTitle)
+        ratingList.sort(key=operator.attrgetter('numVotes'), reverse=True)
+        """problem is that its not printing out (still processing a list if num is greater than the list)"""
+        i = 0
+        if num < len(ratingList):
+            while i < num:
+                movieList.append(movie[ratingList[i].tconst])
+                i += 1
+        else:
+            while i < len(ratingList):
+                movieList.append(movie[ratingList[i].tconst])
+        j = 1
+        for movie in movieList:
+            print("\t", str(i) + ". VOTES:", str(ratingList[j-1].numVotes) + ", MOVIE: Identifier:", movie.tconst, ", Title:", movie.primaryTitle, ", Type: ", movie.titleType,
+                  ", Year:", movie.startYear, ", Runtime:", movie.runTime, ", Genres:", movie.genres)
+            j += 1
+    elapsed = timer() - start
+    print('elapsed time (s):', elapsed, "\n")
+
