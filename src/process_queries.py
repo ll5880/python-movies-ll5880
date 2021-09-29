@@ -116,18 +116,19 @@ def Most_Votes(titleType, num, movie, ratings) -> None:
         ratingList.sort(key=operator.attrgetter('numVotes'), reverse=True)
         """problem is that its not printing out (still processing a list if num is greater than the list)"""
         i = 0
-        if num < len(ratingList):
-            while i < num:
-                movieList.append(movie[ratingList[i].tconst])
-                i += 1
-        else:
-            while i < len(ratingList):
-                movieList.append(movie[ratingList[i].tconst])
+        for r in ratingList:
+            movieList.append(movie[r.tconst])
+            i += 1
+            if i >= num:
+                break
         j = 1
         for movie in movieList:
-            print("\t", str(i) + ". VOTES:", str(ratingList[j-1].numVotes) + ", MOVIE: Identifier:", movie.tconst, ", Title:", movie.primaryTitle, ", Type: ", movie.titleType,
-                  ", Year:", movie.startYear, ", Runtime:", movie.runTime, ", Genres:", movie.genres)
+            print("\t", str(j) + ". VOTES:", str(ratingList[j-1].numVotes) + ", MOVIE: Identifier:", movie.tconst,
+                  ", Title:", movie.primaryTitle, ", Type: ", movie.titleType,", Year:", movie.startYear, ", Runtime:",
+                  movie.runTime, ", Genres:", movie.genres)
             j += 1
     elapsed = timer() - start
     print('elapsed time (s):', elapsed, "\n")
+
+
 
