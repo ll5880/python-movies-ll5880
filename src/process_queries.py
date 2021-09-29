@@ -68,3 +68,32 @@ def Year_and_Genre(titleType, startYear, genre, movie) -> None:
     print('elapsed time (s):', elapsed, "\n")
 
 
+def RunTime(titleType, startTime, endTime, movie) -> None:
+    print("processing: RUNTIME ", titleType, startTime, endTime)
+    start = timer()
+    found = False
+    movieList = []
+    for key in movie:
+        if titleType == movie[key].titleType:
+            m = movie[key]
+            if startTime <= m.runTime <= endTime:
+                found = True
+                movieList.append(movie[key])
+
+    # sort the list here
+    # 1. sort primaryTitles in ascending order
+    movieList.sort(key=operator.attrgetter('primaryTitle'))
+    # 2. sort runtime in reverse order.
+    movieList.sort(key=operator.attrgetter('runTime'), reverse=True)
+
+    if not found:
+        print("\tNo match found!")
+    else:
+        for m in movieList:
+            print("\tIdentifier: ", m.tconst, ", Title: ", m.primaryTitle, ", Type: ", m.titleType,
+                  ", Year: ", m.startYear, ", Runtime: ", m.runTime, ", Genres: ", m.genres)
+
+    elapsed = timer() - start
+    print('elapsed time (s):', elapsed, "\n")
+
+
