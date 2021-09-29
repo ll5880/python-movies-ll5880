@@ -43,3 +43,28 @@ def Contains(titleType, words, movie) -> None:
     print('elapsed time (s):', elapsed, "\n")
 
 
+def Year_and_Genre(titleType, startYear, genre, movie) -> None:
+    print("processing: YEAR_AND_GENRE ", titleType, startYear, genre)
+    start = timer()
+    found = False
+    movieList = []
+    for key in movie:
+        if titleType == movie[key].titleType:
+            m = movie[key]
+            if startYear == m.startYear and genre in m.genres:
+                found = True
+                movieList.append(movie[key])
+
+    movieList.sort(key=operator.attrgetter('primaryTitle'))
+
+    if not found:
+        print("\tNo match found!")
+    else:
+        for m in movieList:
+            print("\tIdentifier: ", m.tconst, ", Title: ", m.primaryTitle, ", Type: ", m.titleType,
+                  ", Year: ", m.startYear, ", Runtime: ", m.runTime, ", Genres: ", m.genres)
+
+    elapsed = timer() - start
+    print('elapsed time (s):', elapsed, "\n")
+
+
