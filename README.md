@@ -1,8 +1,10 @@
 # Movie Dictionary in Python
 
-A dictionary of movies & ratings and depending on the input commands it 
+## Description
+This project includes a dictionary of movies & ratings and depending on the input commands it 
 reads from an input file, it will perform that specific search and time
-the duration of execution.
+the duration of execution. There are several commands to tests, and various different input files 
+with varying commands and sizes of data used for them.
 
 The commands are Lookup, Contains, Year_And_Genre, Runtime, Most_Votes, and Top. 
 
@@ -12,7 +14,7 @@ certain arguments.
 The project utilizes dictionaries in python in order to understand and test the
 functionalities of them.
 
-# How to use the commands
+## Commands
 Lookup ( tconstant, movie, rating ) - a tconstant is a unique number identifier for each
 movie and their rating. The lookup command will take in the given tconstant
 and search through the dataset of movies and ratings and provide information
@@ -39,13 +41,15 @@ Top ( titleType, num, startYear, endYear, movie, ratings ) - provides a list of 
 amount of movies of a certain format, within a certain time frame, that have over 
 1000 votes and are the highest rated.
 
-#challenges
+## Challenges
 
 Some challenges behind the project was sorting the list of movies found, in an
 efficient manner. There were thoughts of sorting it using foreach statements
 however it would be tedious to sort through each list. However python has a 
 built in sort() function which makes this process easier by sorting the list
 with provided arguments and the list can be reversed with a simple true or false.
+
+
 
 
 
